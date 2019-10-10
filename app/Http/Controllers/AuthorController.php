@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Author;
 use Illuminate\Http\Request;
+use Mail;
+use App\Mail\NewAuthor;
 
 class AuthorController extends Controller
 {
@@ -40,6 +42,9 @@ class AuthorController extends Controller
         $author->name = $request->author_name;
         $author->surname = $request->author_surname;
         $author->save();
+
+        Mail::to('petras@localhost')->send(new NewAuthor($author));
+
         return redirect()->route('author.index');
     }
 

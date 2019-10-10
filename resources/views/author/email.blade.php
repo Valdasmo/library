@@ -1,0 +1,1 @@
+Sukurtas naujas autorius: {{$name}} {{$surname}}
