@@ -44,7 +44,8 @@ class BookController extends Controller
         $book->critic = $request->book_critic;
         $book->author_id = $request->author_id;
         $book->save();
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success_message', 'Sekmingai įrašytas.');
+
     }
 
     /**
@@ -84,7 +85,7 @@ class BookController extends Controller
         $book->critic = $request->book_critic;
         $book->author_id = $request->author_id;
         $book->save();
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success_message', 'Sėkmingai pakeistas.');
     }
 
     /**
@@ -96,6 +97,6 @@ class BookController extends Controller
     public function destroy(Book $book)
     {
         $book->delete();
-        return redirect()->route('book.index');
+        return redirect()->route('book.index')->with('success_message', 'Sekmingai ištrintas.');
     }
 }
