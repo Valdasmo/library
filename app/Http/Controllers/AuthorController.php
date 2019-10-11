@@ -6,6 +6,7 @@ use App\Author;
 use Illuminate\Http\Request;
 use Mail;
 use App\Mail\NewAuthor;
+use Validator;
 
 class AuthorController extends Controller
 {
@@ -38,6 +39,18 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
+           
+        $validator = Validator::make($request->all(),
+        [
+            'author_name' => ['required', 'min:3', 'max:64'],
+            'author_surname' => ['required', 'min:3', 'max:64'],
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+            return redirect()->route('author.create')->withErrors($validator);
+        }
+    
         $author = new Author;
         $author->name = $request->author_name;
         $author->surname = $request->author_surname;
@@ -46,6 +59,7 @@ class AuthorController extends Controller
         Mail::to('petras@localhost')->send(new NewAuthor($author));
 
         return redirect()->route('author.index')->with('success_message', 'Sekmingai įrašytas.');
+
     }
 
     /**
@@ -79,6 +93,17 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
+        $validator = Validator::make($request->all(),
+        [
+            'author_name' => ['required', 'min:3', 'max:64'],
+            'author_surname' => ['required', 'min:3', 'max:64'],
+        ]
+        );
+        if ($validator->fails()) {
+            $request->flash();
+           return redirect()->route('author.edit', ['author' => $author])->withErrors($validator);
+        }
+ 
         $author->name = $request->author_name;
         $author->surname = $request->author_surname;
         $author->save();
