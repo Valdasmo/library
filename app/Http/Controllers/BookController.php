@@ -13,10 +13,23 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::all();
-        return view('book.index', ['books' => $books]);
+        $filter = $request->get('filter', '');
+        $authors = Author::all();
+        if ($filter) {
+            $books = Book::where('author_id', $filter)->get(); // db
+ 
+        } else {
+            $books = Book::all(); //<<-- šita eilutė čia įdedama //paėmus ją iš viršaus (buvo po šia eilute: public function index())
+        }
+
+        // $books = Book::all();
+
+        return view('book.index', ['books' => $books,
+        'authors' => $authors,
+        'filter' => $filter ?? 0
+        ]);
     }
 
     /**

@@ -7,6 +7,21 @@
            <div class="card">
                <div class="card-header">PAVADINIMAS</div>
 
+                {{-- Filtravimas start --}}
+ 
+                <form method="GET" action="{{route('book.index')}}">
+                  <select class="form-control" name="filter">
+                      @foreach ($authors as $author)
+                      <option value="{{$author->id}}" @if($author->id==$filter) selected @endif>{{$author->name}}
+                          {{$author->surname}}</option>
+                      @endforeach
+                  </select>
+
+                  <br>
+                  <button type="submit">Rodyti autoriaus knygą</button>
+              </form>
+              {{-- Filtravimas end --}}
+
                <div class="card-body">
                   <div class="form-group">
 
