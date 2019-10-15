@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Book;
 use Illuminate\Http\Request;
 use App\Author;
+use Intervention\Image\ImageManagerStatic as Image;
 
 class BookController extends Controller
 {
@@ -52,10 +53,21 @@ class BookController extends Controller
     public function store(Request $request)
     {
         $book = new Book;
+//foto start
+$file = $request->file('book_photo');
+$img = Image::make($file);
+// resize the image to a width of 300 and constrain aspect ratio (auto height)
+$img->resize(300, null, function ($constraint) {
+    $constraint->aspectRatio();
+});
+$photo = basename($file->getClientOriginalName());// failo vardas
+$img->save(public_path('/img/'.$photo));
+//foto end
         $book->title = $request->book_title;
         $book->publisher = $request->book_publisher;
         $book->critic = $request->book_critic;
         $book->author_id = $request->author_id;
+        $book->file = $photo; //foto
         $book->save();
         return redirect()->route('book.index')->with('success_message', 'Sekmingai įrašytas.');
 

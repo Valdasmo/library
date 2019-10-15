@@ -27,7 +27,8 @@
 
 @foreach ($books as $book)
 <a href="{{route('book.edit',[$book])}}"class="form-control">{{$book->title}} {{$book->bookAuthor->name}} {{$book->bookAuthor->surname}}</a>
-  <form method="POST" action="{{route('book.destroy', [$book])}}">
+<img src="{{asset('/img/'.$book->file)}}" style="width:150px;">  
+<form method="POST" action="{{route('book.destroy', [$book])}}">
       
       @csrf
    <button type="submit">DELETE</button>

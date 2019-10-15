@@ -10,7 +10,7 @@
                <div class="card-body">
                     <div class="form-group">
 
-<form method="POST" action="{{route('book.update',[$book])}}">
+<form method="POST" action="{{route('book.update',[$book])}}"enctype="multipart/form-data">
     Title: <input type="text"class="form-control" name="book_title" value="{{$book->title}}">
     Publisher: <input type="text"class="form-control" name="book_publisher" value="{{$book->publisher}}">
     Critic: <textarea name="book_critic"id="summernote"class="form-control">{{$book->critic}}"</textarea>
